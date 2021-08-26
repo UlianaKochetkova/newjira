@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Accounts</title>
+  <style type="text/css">
+    .but{
+      display:block;
+      wigth:200px;
+    }
+
+    .cards{
+      display: flex;
+      flex-wrap: wrap;
+
+    }
+    .card{
+      margin:20px;
+    }
+  </style>
+</head>
+
+
+<body>
+<!-- Верхнее меню -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/admin}">
+      NewJira
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/showAccounts}">All accounts</a>
+        </li>
+        <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/addTask}">Add Task</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/showTasks}">All Tasks</a>
+        </li>
+      </ul>
+
+      <form th:action="@{/logout}" method="post">
+        <input class="but btn btn-primary" type="submit" value="Sign Out"/>
+      </form>
+
+    </div>
+  </div>
+</nav>
+
+<!--TODO: убрать показ пароля-->
+<div class="cards">
+  <div class="card" style="width: 18rem;" th:each="user : ${users}">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Id: <span th:text="${user.getId()}"></span></li>
+      <li class="list-group-item">Username: <span th:text="${user.getUsername()}"></span></li>
+      <li class="list-group-item">Current Role: <span th:text="${userrolerepo.findUser_RolesByUser_Id(user.getId()).getRole().getName()}"></span></li>
+    </ul>
+    <div class="card-body">
+      <a th:href="@{chRole/{id}(id=${user.getId()})}" class="but btn btn-primary">Change Role</a>
+    </div>
+  </div>
+
+</div>
+
+
+</body>
+</html>

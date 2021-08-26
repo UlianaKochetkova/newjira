@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Modify Task</title>
+  <style type="text/css">
+    .body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /*border: 4px double black;*/
+    }
+    .but1{
+      margin-top: 10px;
+    }
+    .modify{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 330px;
+    }
+    h2{
+      margin-bottom: -10px;
+    }
+
+    .user{
+      display:flex;
+      justify-content: center;
+      width: 330px;
+      /*border: 4px double black;*/
+    }
+    .user_id{
+      margin-left:10px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      NewJira
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/showAccounts}">All accounts</a>
+        </li>
+        <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/addTask}">Add Task</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/showTasks}">All Tasks</a>
+        </li>
+      </ul>
+
+      <form th:action="@{/logout}" method="post">
+        <input class="but btn btn-primary" type="submit" value="Sign Out"/>
+      </form>
+
+    </div>
+  </div>
+</nav>
+
+<div class="body">
+  <div class="body1">
+  <div class="py-5 text-center">
+    <h2>Modify Task</h2>
+  </div>
+
+  <form class="modify" action="#" th:action="@{/modify}" method="post">
+    <p><input name="id" type="number" placeholder="id" th:value="${task.getId()}" readonly></p>
+    <p><input name="user_id" type="number" placeholder="user_id" th:value="${task.getUser().getId()}"  th:readonly="${#authorization.expr('hasAuthority(''User'')')}"></p>
+    <p><input name="title" type="text" placeholder="title" th:value="${task.getTitle()}" th:readonly="${#authorization.expr('hasAuthority(''User'')')}"></p>
+    <p><input name="description" type="text" placeholder="description" th:value="${task.getDescription()}"  th:readonly="${#authorization.expr('hasAuthority(''User'')')}"></p>
+    <p>Creation date: <input type="date" name="blackdate1" th:value="${task.getDate1String()}"  th:readonly="${#authorization.expr('hasAuthority(''User'')')}"></p>
+    <p>Due date: <input type="date" name="blackdate2" th:value="${task.getDate2String()}"  th:readonly="${#authorization.expr('hasAuthority(''User'')')}"></p>
+
+    <p>
+    <input type="radio" id="Not started" name="st" value="Not Started" th:checked="${task.getStatus().getId() eq 1}" th:disabled="${task.getStatus().getId() ge 2}">
+    <label for="Not started">Not Started</label>
+
+    <input type="radio" id="In progress" name="st" value="In progress" th:checked="${task.getStatus().getId() eq 2}" th:disabled="${task.getStatus().getId() eq 3}">
+    <label for="In progress">In Progress</label>
+
+    <input type="radio" id="Completed" name="st" value="Completed" th:checked="${task.getStatus().getId() eq 3}" th:disabled="${task.getStatus().getId() lt 2}">
+    <label for="Completed">Completed</label>
+    </p>
+
+    <p><input class="but1 but btn btn-primary" type="submit" value="Modify task"/></p>
+
+  </form>
+  </div>
+</div>
+</body>
+</html>

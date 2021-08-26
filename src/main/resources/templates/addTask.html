@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<!--<link th:href="@{/templates/static/css/addTask.css}" href="static/addTask.css" rel="stylesheet">-->
+
+<head>
+  <meta charset="UTF-8">
+  <title>Add Task</title>
+  <style type="text/css">
+    .body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /*border: 4px double black;*/
+    }
+    .but1{
+      margin:auto;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+    .addtask{
+      /*border: 4px double black;*/
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 330px;
+    }
+    h2{
+      margin-bottom: -10px;
+    }
+    /*p{*/
+    /*  border: 4px double black;*/
+    /*}*/
+    .user{
+      display:flex;
+      justify-content: center;
+      width: 330px;
+      /*border: 4px double black;*/
+    }
+    .user_id{
+      margin-left:10px;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      NewJira
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/showAccounts}">All accounts</a>
+        </li>
+        <li sec:authorize="hasAuthority('Admin')" class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/addTask}">Add Task</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/showTasks}">All Tasks</a>
+        </li>
+      </ul>
+
+      <form th:action="@{/logout}" method="post">
+        <input class="but btn btn-primary" type="submit" value="Sign Out"/>
+      </form>
+
+    </div>
+  </div>
+</nav>
+<div class="body">
+  <div class="body1">
+    <div class="py-5 text-center">
+      <h2>New Task</h2>
+    </div>
+
+<form  th:action="@{/addTask}" method="post">
+  <div class="addtask">
+<!--    TODO:Сделать выпадающий список на юзеров?-->
+<!--  <p><input name="user_id" type="number" placeholder="user_id" th:value="${rand}"></p>-->
+    <p class="user">User:
+    <select class="user_id" name="user_id">
+      <option th:each="u : ${users}" th:value="${u.getId()}" th:text="${u.getUsername()}" th:selected="${u.getId() == rand}">
+      </option>
+    </select>
+    </p>
+
+  <p><input name="title" type="text" placeholder="title"></p>
+  <p><input name="description" type="text" placeholder="description"></p>
+  <p>Creation date: <input type="date" th:value="${curdate}" name="blackdate1" readonly></p>
+  <p>Due date: <input type="date" th:min="${curdate}" name="blackdate2"></p>
+  </div>
+  <div class="but1">
+  <p><input class="but btn btn-primary" type="submit" value="Create"/></p>
+  </div>
+</form>
+  </div>
+</div>
+</body>
+</html>

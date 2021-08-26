@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+<!--    <link th:href="@{/css/registration.css}" type="text/css" rel="stylesheet">-->
+<!--    <link th:href="registration.css" type="text/css" href="../static/css/registration.css" rel="stylesheet">-->
+    <title>Registration</title>
+    <style type="text/css">
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .main{
+            display:flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 330px;
+            margin:auto;
+        }
+        h2{
+            margin-bottom: -20px;
+        }
+        .reg{
+            margin-top: 15px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2>Registration</h2>
+        </div>
+
+<div class="main">
+            <div class="col-md-7 col-lg-8">
+                    <div class="row g-3">
+                        <div th:text="${message}"></div>
+                        <form class="regist" th:action="@{/registration}" method="post">
+
+                        <div class="col-12">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group has-validation">
+                                <input type="text" name="username" class="form-control" id="username" placeholder="Username"/>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="username" class="form-label">Password</label>
+                            <div class="input-group has-validation">
+                                <input type="password" name="password" class="form-control" placeholder="Password"/>
+                            </div>
+                        </div>
+
+                    <button class="w-100 btn btn-primary btn-lg" style="margin-top: 20px" type="submit">Create New User</button>
+                    <button class="w-100 btn btn-lg btn-primary reg" type="submit"><a class="w-100 btn btn-lg btn-primary" th:href="@{/login}">Back to Sign in</a></button>
+                    </form>
+                    </div>
+                </div>
+        </div>
+
+    </main>
+
+
+</div>
+</body>
+</html>
